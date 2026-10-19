@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mileage log and allowance calculator (DE, UK, US)</title>
+<meta name="description" content="Printable German Fahrtenbuch form, Entfernungspauschale and Kilometerpauschale calculator, UK HMRC approved mileage rates and US IRS standard mileage rate log with CSV and PDF export. Runs in your browser.">
+<meta name="theme-color" content="#0B0F0C">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/MartianMono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="app.css?v=2">
+</head>
+<body>
+
+<div class="screen">
+<nav class="strip" aria-label="Site">
+  <div class="in">
+    <a class="home" id="lnkHome" href="/tools/mileage/" data-t="back">← hmsk.life</a>
+    <span class="sp"></span>
+    <button type="button" class="lang" id="langBtn" data-t="langSwitch">DE</button>
+    <a id="lnkImprint" href="/imprint/" data-t="imprint">Imprint</a>
+    <a id="lnkPrivacy" href="/privacy/" data-t="privacy">Privacy</a>
+  </div>
+</nav>
+
+<header class="head wrap">
+  <p class="cmd"><span class="ps">$</span> mileage --<span id="cmdMode">de</span></p>
+  <h1 data-t="h1">Mileage log and allowance calculator</h1>
+  <p class="sub" data-t="sub"></p>
+  <div class="tabs" role="tablist" aria-label="Country">
+    <button type="button" role="tab" id="tab-de" aria-controls="panel-de" data-mode="de"><span data-t="tabDe">Germany</span><small data-t="tabDeSub">Fahrtenbuch, Pauschalen</small></button>
+    <button type="button" role="tab" id="tab-uk" aria-controls="panel-uk" data-mode="uk"><span data-t="tabUk">United Kingdom</span><small data-t="tabUkSub">HMRC 55p / 25p</small></button>
+    <button type="button" role="tab" id="tab-us" aria-controls="panel-us" data-mode="us"><span data-t="tabUs">United States</span><small data-t="tabUsSub">IRS standard rate</small></button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= Germany ================= -->
+  <section class="panel" id="panel-de" role="tabpanel" aria-labelledby="tab-de">
+    <div class="warn" role="note">
+      <p class="warn__t" data-t="deWarnTitle">Why this tool does not keep your German log</p>
+      <p data-t="deWarn"></p>
+    </div>
+
+    <div class="grid-de">
+      <form class="form" id="formBook" novalidate autocomplete="off">
+        <fieldset>
+          <legend>--fahrtenbuch</legend>
+          <p class="hint top" data-t="bookIntro"></p>
+          <label for="bkName" data-t="bkName">Driver / vehicle keeper</label>
+          <input id="bkName" type="text" maxlength="80">
+          <div class="grid2">
+            <div><label for="bkPlate" data-t="bkPlate">Number plate</label><input id="bkPlate" type="text" maxlength="20"></div>
+            <div><label for="bkCar" data-t="bkCar">Make and model</label><input id="bkCar" type="text" maxlength="60"></div>
+          </div>
+          <div class="grid2">
+            <div><label for="bkYear" data-t="bkYear">Year</label><input id="bkYear" type="number" inputmode="numeric" min="2000" max="2100"></div>
+            <div><label for="bkPages" data-t="bkPages">Pages (20 trips each)</label><input id="bkPages" type="number" inputmode="numeric" min="1" max="60"></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="bkGuide" checked> <span data-t="bkGuide">Add a page with filling-in rules</span></label>
+          <p class="hint" data-t="bookHint"></p>
+          <div class="cta">
+            <button type="button" class="btn btn--amber" id="bookPrint" data-t="bookPrint">Print the Fahrtenbuch / save as PDF</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="calcs">
+        <form class="form" id="formCommute" novalidate autocomplete="off">
+          <fieldset>
+            <legend>--entfernungspauschale</legend>
+            <p class="hint top" data-t="cmIntro"></p>
+            <div class="grid3">
+              <div><label for="cmYear" data-t="cmYear">Year</label><select id="cmYear"></select></div>
+              <div><label for="cmKm" data-t="cmKm">One-way km</label><input id="cmKm" type="number" inputmode="decimal" min="0" max="1000" step="1"></div>
+              <div><label for="cmDays" data-t="cmDays">Working days</label><input id="cmDays" type="number" inputmode="numeric" min="0" max="366" step="1"></div>
+            </div>
+            <label for="cmMode" data-t="cmMode">How you get there</label>
+            <select id="cmMode">
+              <option value="car" data-t="cmCar">Own car or a car provided to you (no cap)</option>
+              <option value="other" data-t="cmOther">Train, bus, bike, motorbike, carpool passenger (cap 4,500 €)</option>
+            </select>
+            <div class="res" aria-live="polite">
+              <p class="lbl" data-t="cmResult">Entfernungspauschale per year</p>
+              <p class="big" id="cmTotal">0</p>
+              <p class="calcline" id="cmLine"></p>
+            </div>
+          </fieldset>
+        </form>
+
+        <form class="form" id="formTrip" novalidate autocomplete="off">
+          <fieldset>
+            <legend>--dienstreise</legend>
+            <p class="hint top" data-t="btIntro"></p>
+            <div class="grid2">
+              <div><label for="btKm" data-t="btKm">Kilometres driven</label><input id="btKm" type="number" inputmode="decimal" min="0" step="1"></div>
+              <div><label for="btVehicle" data-t="btVehicle">Vehicle</label>
+                <select id="btVehicle">
+                  <option value="car" data-t="btCar">Car (0.30 €/km)</option>
+                  <option value="motor" data-t="btMotor">Motorbike, moped, e-scooter (0.20 €/km)</option>
+                  <option value="bike" data-t="btBike">Bicycle (no flat rate)</option>
+                </select>
+              </div>
+            </div>
+            <div class="res" aria-live="polite">
+              <p class="lbl" data-t="btResult">Deductible travel cost</p>
+              <p class="big" id="btTotal">0</p>
+              <p class="calcline" id="btLine"></p>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= UK and US share one layout ================= -->
+  <section class="panel" id="panel-uk" role="tabpanel" aria-labelledby="tab-uk" hidden></section>
+  <section class="panel" id="panel-us" role="tabpanel" aria-labelledby="tab-us" hidden></section>
+
+  <template id="logTpl">
+    <div class="layout">
+      <form class="form logform" novalidate autocomplete="off">
+        <fieldset>
+          <legend data-t="addLegend">--add-trip</legend>
+          <div class="grid2">
+            <div><label data-f="date" data-t="fDate">Date</label><input name="date" type="date" required></div>
+            <div><label data-f="miles" data-t="fMiles">Business miles</label><input name="miles" type="number" inputmode="decimal" min="0.1" step="0.1" required></div>
+          </div>
+          <div class="grid2">
+            <div><label data-f="from" data-t="fFrom">From</label><input name="from" type="text" maxlength="80"></div>
+            <div><label data-f="to" data-t="fTo">To</label><input name="to" type="text" maxlength="80"></div>
+          </div>
+          <label data-f="purpose" data-t="fPurpose">Purpose (who you visited and why)</label><input name="purpose" type="text" maxlength="120">
+          <div class="grid2 uk-only">
+            <div><label data-f="vehicle" data-t="fVehicle">Vehicle</label>
+              <select name="vehicle">
+                <option value="car" data-t="vCar">Car or van</option>
+                <option value="moto" data-t="vMoto">Motorcycle</option>
+                <option value="bike" data-t="vBike">Bicycle</option>
+              </select></div>
+            <div><label data-f="passengers" data-t="fPassengers">Colleagues carried</label><input name="passengers" type="number" inputmode="numeric" min="0" max="8" step="1" value="0"></div>
+          </div>
+          <div class="grid2 us-only">
+            <div><label data-f="category" data-t="fCategory">Type of use</label>
+              <select name="category">
+                <option value="business" data-t="cBusiness">Business</option>
+                <option value="medical" data-t="cMedical">Medical or military moving</option>
+                <option value="charity" data-t="cCharity">Charity</option>
+              </select></div>
+            <div><label data-f="extras" data-t="fExtras">Parking and tolls ($)</label><input name="extras" type="number" inputmode="decimal" min="0" step="0.01" value="0"></div>
+          </div>
+          <p class="err" data-role="err" hidden></p>
+          <div class="cta">
+            <button type="submit" class="btn btn--amber" data-t="addTrip">Add trip</button>
+            <button type="button" class="btn btn--ghost sm" data-role="cancel" hidden data-t="cancelEdit">Cancel edit</button>
+          </div>
+          <p class="hint" data-t="storeHint"></p>
+        </fieldset>
+      </form>
+
+      <section class="result" aria-live="polite">
+        <div class="term">
+          <div class="term__bar"><i></i><i></i><i></i><span data-role="termTitle">$ claim --total</span></div>
+          <div class="term__body">
+            <p class="lbl" data-role="totalLbl"></p>
+            <p class="big" data-role="total">0</p>
+            <p class="calcline" data-role="totalLine"></p>
+            <table class="tbl" data-role="summary"><tbody></tbody></table>
+            <div class="uk-only relief" data-role="relief"></div>
+            <p class="note" data-role="rateNote"></p>
+            <div class="tools">
+              <button type="button" class="btn btn--ghost sm" data-role="csv" data-t="exportCsv">Export CSV</button>
+              <button type="button" class="btn btn--ghost sm" data-role="pdf" data-t="exportPdf">Print / PDF</button>
+              <label class="btn btn--ghost sm file">
+                <span data-t="importCsv">Import CSV</span><input type="file" accept=".csv,text/csv" data-role="import">
+              </label>
+              <button type="button" class="btn btn--ghost sm" data-role="clear" data-t="clearAll">Delete all trips</button>
+            </div>
+            <p class="nudge" data-role="nudge" hidden><span data-t="nudge"></span> <a data-role="nudgeLink" href="/?topic=mileage#contact" data-t="nudgeLink">Get updates</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="trips">
+      <h2 class="h3" data-role="tripsTitle"></h2>
+      <div class="tblwrap">
+        <table class="tbl trips__tbl" data-role="trips">
+          <thead><tr>
+            <th data-t="thDate">Date</th><th data-t="thRoute">Route</th><th data-t="thPurpose">Purpose</th>
+            <th data-role="thKind"></th><th class="n" data-t="thMiles">Miles</th><th class="n" data-t="thAmount">Amount</th><th class="act"><span class="vh" data-t="thActions">Actions</span></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="hint" data-role="empty" data-t="empty"></p>
+    </section>
+  </template>
+</main>
+
+<section class="wrap sources" aria-labelledby="srcTitle">
+  <h2 id="srcTitle" class="h2" data-t="srcTitle">$ cat sources.md</h2>
+  <p class="disclaimer" data-t="disclaimer"></p>
+  <ul id="facts"></ul>
+  <h3 class="h3" data-t="srcList">Sources</h3>
+  <ul id="sources"></ul>
+  <p class="selftest" id="selftest"></p>
+</section>
+
+<footer class="wrap foot">
+  <p>MIT · <a id="lnkHome2" href="/tools/mileage/">hmsk.life</a> · <a id="lnkUpdates" href="/?topic=mileage#contact" data-t="updates">Get updates when rates change</a></p>
+</footer>
+</div>
+
+<div id="printArea" class="print-only" aria-hidden="true"></div>
+
+<script type="module" src="app.js?v=1"></script>
+</body>
+</html>

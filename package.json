@@ -1,0 +1,12 @@
+{
+  "name": "hmsk-mileage",
+  "version": "1.0.0",
+  "description": "Mileage log and allowance calculator: German Fahrtenbuch form and Pauschalen, UK HMRC approved mileage rates, US IRS standard mileage rate.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/",
+    "start": "python3 -m http.server 8080 --directory public"
+  }
+}
