@@ -83,7 +83,7 @@ function applyTexts() {
   $('#langBtn').setAttribute('aria-label', T.langSwitchLabel);
   const de = lang === 'de';
   const page = de ? '/de/tools/mileage/' : '/tools/mileage/';
-  const contact = (de ? '/de/' : '/') + '?topic=mileage#contact';
+  const contact = (de ? '/de/newsletter/' : '/subscribe/') + '?topic=mileage';
   $('#lnkHome').href = $('#lnkHome2').href = LINK_BASE + page;
   $('#lnkImprint').href = LINK_BASE + (de ? '/impressum/' : '/imprint/');
   $('#lnkPrivacy').href = LINK_BASE + (de ? '/datenschutz/' : '/privacy/');
