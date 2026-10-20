@@ -36,7 +36,7 @@ export const TEXT = {
     btBikeLine: 'There is no flat rate for bicycles since 2014. You can deduct actual costs (share of purchase, repairs) instead.',
 
     // UK / US log
-    addLegend: '--add-trip', addLegendEdit: '--edit-trip',
+    addLegend: 'Add a trip', addLegendEdit: 'Edit trip',
     fDate: 'Date', fMiles: 'Business miles', fFrom: 'From', fTo: 'To', fPurpose: 'Purpose (who you visited and why)',
     fVehicle: 'Vehicle', vCar: 'Car or van', vMoto: 'Motorcycle', vBike: 'Bicycle',
     fPassengers: 'Colleagues carried (5p each per mile)',
@@ -54,9 +54,9 @@ export const TEXT = {
     thVehicle: 'Vehicle', thCategory: 'Type',
     edit: 'Edit', del: 'Delete',
     empty: 'No trips yet. Add your first one above.',
-    tripsTitle: n => `$ cat trips.csv  (${n})`,
+    tripsTitle: n => `Trips (${n})`,
 
-    ukTitle: '$ hmrc --amap',
+    ukTitle: 'HMRC approved mileage rates',
     ukTotalLbl: 'Approved mileage allowance, all tax years',
     ukTotalLine: (n, years) => `${n} trips in ${years} tax year${years === 1 ? '' : 's'}`,
     ukYear: y => `Tax year ${y}`,
@@ -70,7 +70,7 @@ export const TEXT = {
     ukNote: 'Rates per tax year (6 April to 5 April): cars and vans 55p for the first 10,000 business miles from 2026-27 (45p before), 25p after; motorcycles 24p; bicycles 20p; 5p per colleague carried. Self-employed people can use the same flat rates for cars, vans and motorcycles under simplified expenses. Commuting to your usual workplace does not count.',
     ukVeh: { car: 'Car/van', moto: 'Motorcycle', bike: 'Bicycle' },
 
-    usTitle: '$ irs --standard-mileage',
+    usTitle: 'IRS standard mileage rate',
     usTotalLbl: 'Standard mileage amount, all years',
     usTotalLine: n => `${n} trips, parking and tolls included`,
     usRow: (purpose, from, to, miles, rate) => `${purpose}, ${from} to ${to}: ${miles} mi × ${rate}¢`,
@@ -80,7 +80,7 @@ export const TEXT = {
     usNote: '2026 has two business rates: 72.5¢ a mile from 1 January to 30 June and 76¢ from 1 July (IR-2026-29). Medical and military moving: 20.5¢, then 23.5¢. Charity: 14¢ (fixed by law). Employees cannot deduct unreimbursed mileage on their federal return; the business rate is for the self-employed and for tax-free employer reimbursement. Commuting does not count.',
     usCat: { business: 'Business', medical: 'Medical/moving', charity: 'Charity' },
 
-    srcTitle: '$ cat sources.md',
+    srcTitle: 'Rates and sources',
     disclaimer: 'Not tax advice. Rates checked against the official sources below on 19 October 2026. Check your claim with a tax advisor (Steuerberater, accountant, CPA) if in doubt.',
     srcList: 'Sources',
     facts: [
@@ -138,7 +138,7 @@ export const TEXT = {
     btLine: (km, rate, total) => `${km} km × ${rate} = ${total}`,
     btBikeLine: 'Für Fahrräder gibt es seit 2014 keine Pauschale. Sie können stattdessen die tatsächlichen Kosten ansetzen (Anteil am Kaufpreis, Reparaturen).',
 
-    addLegend: '--fahrt-hinzu', addLegendEdit: '--fahrt-bearbeiten',
+    addLegend: 'Fahrt hinzufügen', addLegendEdit: 'Fahrt bearbeiten',
     fDate: 'Datum', fMiles: 'Geschäftliche Meilen', fFrom: 'Von', fTo: 'Nach', fPurpose: 'Zweck (wen Sie besucht haben und warum)',
     fVehicle: 'Fahrzeug', vCar: 'Auto oder Transporter', vMoto: 'Motorrad', vBike: 'Fahrrad',
     fPassengers: 'Mitgenommene Kollegen (je 5p pro Meile)',
@@ -156,9 +156,9 @@ export const TEXT = {
     thVehicle: 'Fahrzeug', thCategory: 'Art',
     edit: 'Bearbeiten', del: 'Löschen',
     empty: 'Noch keine Fahrten. Fügen Sie oben die erste hinzu.',
-    tripsTitle: n => `$ cat fahrten.csv  (${n})`,
+    tripsTitle: n => `Fahrten (${n})`,
 
-    ukTitle: '$ hmrc --amap',
+    ukTitle: 'HMRC-Kilometersätze (AMAP)',
     ukTotalLbl: 'Approved mileage allowance, alle Steuerjahre',
     ukTotalLine: (n, years) => `${n} Fahrten in ${years} Steuerjahr${years === 1 ? '' : 'en'}`,
     ukYear: y => `Steuerjahr ${y}`,
@@ -172,7 +172,7 @@ export const TEXT = {
     ukNote: 'Sätze je Steuerjahr (6. April bis 5. April): Auto und Transporter ab 2026-27 55p für die ersten 10.000 geschäftlichen Meilen (vorher 45p), danach 25p; Motorrad 24p; Fahrrad 20p; 5p je mitgenommenem Kollegen. Selbstständige können dieselben Pauschalen für Auto, Transporter und Motorrad über simplified expenses ansetzen. Der Weg zum üblichen Arbeitsort zählt nicht.',
     ukVeh: { car: 'Auto', moto: 'Motorrad', bike: 'Fahrrad' },
 
-    usTitle: '$ irs --standard-mileage',
+    usTitle: 'IRS-Standardsatz pro Meile',
     usTotalLbl: 'Standard-Meilenbetrag, alle Jahre',
     usTotalLine: n => `${n} Fahrten, Parken und Maut eingerechnet`,
     usRow: (purpose, from, to, miles, rate) => `${purpose}, ${from} bis ${to}: ${miles} mi × ${rate}¢`,
@@ -182,7 +182,7 @@ export const TEXT = {
     usNote: '2026 gibt es zwei Sätze für geschäftliche Fahrten: 72,5¢ je Meile vom 1. Januar bis 30. Juni und 76¢ ab 1. Juli (IR-2026-29). Medizinisch und Militär-Umzug: 20,5¢, dann 23,5¢. Gemeinnützig: 14¢ (gesetzlich fest). Angestellte können nicht erstattete Fahrten in der Bundessteuer nicht absetzen; der Geschäftssatz gilt für Selbstständige und für steuerfreie Erstattung durch den Arbeitgeber. Der Arbeitsweg zählt nicht.',
     usCat: { business: 'Geschäftlich', medical: 'Medizin/Umzug', charity: 'Gemeinnützig' },
 
-    srcTitle: '$ cat quellen.md',
+    srcTitle: 'Sätze und Quellen',
     disclaimer: 'Keine Steuerberatung. Sätze am 19. Oktober 2026 mit den amtlichen Quellen unten abgeglichen. Lassen Sie Ihre Angaben im Zweifel von einer Steuerberatung prüfen.',
     srcList: 'Quellen',
     facts: [

@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mileage log and allowance calculator (DE, UK, US)</title>
 <meta name="description" content="Printable German Fahrtenbuch form, Entfernungspauschale and Kilometerpauschale calculator, UK HMRC approved mileage rates and US IRS standard mileage rate log with CSV and PDF export. Runs in your browser.">
-<meta name="theme-color" content="#0B0F0C">
+<meta name="theme-color" content="#EFF1F2">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="preload" href="/assets/fonts/MartianMono.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="app.css?v=2">
+<link rel="preload" href="fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="letterpress.css?v=2">
+<link rel="stylesheet" href="app.css?v=3">
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 </nav>
 
 <header class="head wrap">
-  <p class="cmd"><span class="ps">$</span> mileage --<span id="cmdMode">de</span></p>
+  <p class="eyebrow">Mileage Log<span id="cmdMode" hidden>de</span></p>
   <h1 data-t="h1">Mileage log and allowance calculator</h1>
   <p class="sub" data-t="sub"></p>
   <div class="tabs" role="tablist" aria-label="Country">
@@ -46,7 +47,7 @@
     <div class="grid-de">
       <form class="form" id="formBook" novalidate autocomplete="off">
         <fieldset>
-          <legend>--fahrtenbuch</legend>
+          <legend>Fahrtenbuch</legend>
           <p class="hint top" data-t="bookIntro"></p>
           <label for="bkName" data-t="bkName">Driver / vehicle keeper</label>
           <input id="bkName" type="text" maxlength="80">
@@ -69,7 +70,7 @@
       <div class="calcs">
         <form class="form" id="formCommute" novalidate autocomplete="off">
           <fieldset>
-            <legend>--entfernungspauschale</legend>
+            <legend>Entfernungspauschale</legend>
             <p class="hint top" data-t="cmIntro"></p>
             <div class="grid3">
               <div><label for="cmYear" data-t="cmYear">Year</label><select id="cmYear"></select></div>
@@ -91,7 +92,7 @@
 
         <form class="form" id="formTrip" novalidate autocomplete="off">
           <fieldset>
-            <legend>--dienstreise</legend>
+            <legend>Dienstreise</legend>
             <p class="hint top" data-t="btIntro"></p>
             <div class="grid2">
               <div><label for="btKm" data-t="btKm">Kilometres driven</label><input id="btKm" type="number" inputmode="decimal" min="0" step="1"></div>
@@ -122,7 +123,7 @@
     <div class="layout">
       <form class="form logform" novalidate autocomplete="off">
         <fieldset>
-          <legend data-t="addLegend">--add-trip</legend>
+          <legend data-t="addLegend">Add a trip</legend>
           <div class="grid2">
             <div><label data-f="date" data-t="fDate">Date</label><input name="date" type="date" required></div>
             <div><label data-f="miles" data-t="fMiles">Business miles</label><input name="miles" type="number" inputmode="decimal" min="0.1" step="0.1" required></div>
@@ -161,7 +162,7 @@
 
       <section class="result" aria-live="polite">
         <div class="term">
-          <div class="term__bar"><i></i><i></i><i></i><span data-role="termTitle">$ claim --total</span></div>
+          <div class="term__bar"><span data-role="termTitle">Claim total</span></div>
           <div class="term__body">
             <p class="lbl" data-role="totalLbl"></p>
             <p class="big" data-role="total">0</p>
@@ -200,7 +201,7 @@
 </main>
 
 <section class="wrap sources" aria-labelledby="srcTitle">
-  <h2 id="srcTitle" class="h2" data-t="srcTitle">$ cat sources.md</h2>
+  <h2 id="srcTitle" class="h2" data-t="srcTitle">Rates and sources</h2>
   <p class="disclaimer" data-t="disclaimer"></p>
   <ul id="facts"></ul>
   <h3 class="h3" data-t="srcList">Sources</h3>
@@ -215,6 +216,6 @@
 
 <div id="printArea" class="print-only" aria-hidden="true"></div>
 
-<script type="module" src="app.js?v=1"></script>
+<script type="module" src="app.js?v=2"></script>
 </body>
 </html>
